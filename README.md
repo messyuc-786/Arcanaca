@@ -9,6 +9,25 @@ A dependency-light Tarot reading web app built around one core idea: **the user 
 > The Tarot provides the symbolism.
 > ARCANA provides the interpretation.
 
+## Screens / UI
+
+A cinematic, warm espresso/antique-gold visual system runs across the whole app, matching the approved Home reference:
+
+- **Home** — full-bleed cinematic photographic hero (real Tarot-table photograph), real ARCANA script wordmark, single invisible/accessible CTA hit-area precisely aligned over the artwork's own "Begin Your Journey" graphic. Locked/approved — not modified after sign-off.
+- **Choose Your Reading** — real card-art thumbnails per package row, gold-bordered panels, back navigation, bottom nav.
+- **Your Question** — parchment-style textarea, inspiration-prompt chips, functional character counter.
+- **Shuffle the Deck / Choose Your Cards** — real 78-card deck grid, face-down until the user selects (card art is never revealed pre-selection).
+- **Your Card** — real revealed card artwork, name, orientation, traditional meaning.
+- **Your Spread / Detailed Insights / Bigger Picture** — one continuous, fully data-driven reading page: real selected cards, a **Traditional / In This Position / In Relation** tabbed segmented control per card (only one panel visible at a time, real content in each), and a real cross-card synthesis section.
+- **My Readings** — real saved reading history with real card thumbnails.
+- **Daily Insights** — a real card pulled from the actual deck data, with a "Draw a Card" reroll, kept explicitly separate from the core reading flow.
+- **Learn Tarot** — real Major/Minor Arcana counts and real card thumbnails, Spreads & Meanings, Tarot Basics.
+- **Profile**, **Why Arcana**, **Thank You / Closing** — cinematic backdrop screens with real decorative card art.
+- **How It Works / About ARCANA** — cinematic photographic backdrop (reuses the Home photograph, cropped/blurred to a text-free corner so the composition stays recognizable without duplicating Home's own baked title/CTA), compact premium journey/timeline and concept-grid layouts rather than a documentation-style wall of text.
+- **Menu overlay** — full cinematic takeover (not a plain dropdown), same photographic backdrop, gold icons, dividers, and the language toggle.
+
+All of the above is real HTML/CSS driven by live application state — none of it is a screenshot-as-UI. Reference JPGs supplied during design were used strictly as visual specs (composition, palette, typography, spacing), never as page content, backgrounds standing in for markup, or hardcoded reading text.
+
 ## Current feature set
 
 - ARCANA branding, "Ask the Cards." tagline, Bhasad.org / Lumina Coproduct footer credit
