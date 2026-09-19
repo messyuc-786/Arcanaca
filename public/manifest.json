@@ -1,0 +1,20 @@
+{
+  "name": "ARCANA — Ask the Cards.",
+  "short_name": "ARCANA",
+  "description": "A grounded, RWS-based Tarot reading experience. You choose the cards; ARCANA interprets them.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#100c09",
+  "theme_color": "#100c09",
+  "lang": "en",
+  "icons": [
+    {
+      "src": "/public/deck/ar00.jpg",
+      "sizes": "1144x1919",
+      "type": "image/jpeg",
+      "purpose": "any"
+    }
+  ]
+}
