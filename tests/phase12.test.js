@@ -15,7 +15,7 @@ test('home hero: the approved cinematic photo asset actually exists on disk (not
 });
 
 test('home hero: main.js references the real hero photo path, with a real functional CTA button (not the JPG pasted over the whole app)', () => {
-  assert.match(mainSrc, /src="\/public\/images\/arcana\/home-hero\.jpg"/);
+  assert.match(mainSrc, /src="public\/images\/arcana\/home-hero\.jpg"/, 'hero image path must be relative (no leading slash) so it works when the app is deployed under a subpath');
   assert.match(mainSrc, /class="primary hero-cta" data-action="begin"/, 'the CTA must remain a real clickable button, not part of the image');
 });
 
@@ -75,7 +75,7 @@ test('app shell: the manifest icon references a real, already-licensed image bun
   const manifest = JSON.parse(await readFile(new URL('../public/manifest.json', import.meta.url), 'utf8'));
   for (const icon of manifest.icons) {
     assert.ok(!/^https?:\/\//.test(icon.src), 'icon should be served locally, not from a remote placeholder');
-    const localPath = icon.src.replace(/^\//, '');
-    assert.ok(existsSync(new URL(`../${localPath}`, import.meta.url)), `manifest icon file ${icon.src} should exist in the project`);
+    // manifest-relative URLs resolve against the manifest file's own location (public/), not the project root
+    assert.ok(existsSync(new URL(`../public/${icon.src}`, import.meta.url)), `manifest icon file ${icon.src} should exist relative to public/manifest.json`);
   }
 });

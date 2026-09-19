@@ -14,7 +14,7 @@ test('every card image is bundled locally in public/deck and is not empty', () =
 });
 
 test('card artwork is served from the local deck folder, not a third-party host', () => {
-  assert.match(cardImageUrl(cards[0]), /^\/public\/deck\//);
+  assert.match(cardImageUrl(cards[0]), /^public\/deck\//, 'card artwork path must be relative (no leading slash) so it works when the app is deployed under a subpath');
   assert.ok(!/https?:\/\//.test(cardImageUrl(cards[0])), 'card artwork must not depend on a remote host at runtime');
 });
 

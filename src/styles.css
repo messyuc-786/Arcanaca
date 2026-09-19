@@ -22,7 +22,7 @@ h1,h2,h3{font-family:var(--font-display);letter-spacing:.01em}
 .wordmark small{display:block;color:var(--muted);margin-top:5px;font-size:11px;font-style:italic;font-family:var(--font-body)}
 .top nav{display:flex;gap:22px;align-items:center}
 .menu-toggle{display:none;background:none;border:1px solid var(--line);border-radius:8px;color:var(--warm);font-size:18px;width:40px;height:40px;line-height:1;position:relative;z-index:41}
-.nav-backdrop{position:absolute;inset:0;background:url(/public/images/arcana/home-hero.jpg) center 22%/cover no-repeat}
+.nav-backdrop{position:absolute;inset:0;background:url(../public/images/arcana/home-hero.jpg) center 22%/cover no-repeat}
 .nav-backdrop::after{content:'';position:absolute;inset:0;background:linear-gradient(160deg,rgba(16,12,9,.88),rgba(16,12,9,.96))}
 .nav-panel{position:relative;z-index:1;height:100%;padding:28px 6vw;display:flex;flex-direction:column;gap:0;overflow-y:auto}
 .nav-wordmark{margin-bottom:30px}
@@ -231,7 +231,7 @@ main:has(.flow-screen,.ask-screen,.choose-reading){min-height:100vh}
 .wordmark-static::first-letter{text-transform:uppercase}
 .cinematic-page{position:relative}
 .cinematic-hero{position:relative;min-height:100svh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:112px 32px 72px;overflow:hidden}
-.cinematic-hero::before{content:'';position:absolute;inset:-20%;background-image:url(/public/images/arcana/home-hero.jpg);background-repeat:no-repeat;background-position:0% 95%;background-size:auto 260%;filter:blur(1.5px) brightness(.85) saturate(1.05)}
+.cinematic-hero::before{content:'';position:absolute;inset:-20%;background-image:url(../public/images/arcana/home-hero.jpg);background-repeat:no-repeat;background-position:0% 95%;background-size:auto 260%;filter:blur(1.5px) brightness(.85) saturate(1.05)}
 .cinematic-hero::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(16,12,9,.18) 0%,rgba(16,12,9,.28) 44%,rgba(16,12,9,.48) 100%)}
 .cinematic-hero .eyebrow,.cinematic-hero h1,.cinematic-hero p{position:relative;z-index:1}
 .cinematic-hero h1{font-size:clamp(40px,4.2vw,58px);color:#f3ead8;margin:12px 0 10px;font-weight:500;line-height:1.08;text-shadow:0 3px 24px rgba(0,0,0,.55)}

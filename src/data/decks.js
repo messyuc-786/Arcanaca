@@ -18,7 +18,7 @@ export const decks = [
     year: '1909',
     description: 'The classic Pamela Colman Smith / Arthur Edward Waite deck — the canonical tradition ARCANA\'s interpretations are grounded in.',
     license: 'Public domain (US) — see public/README.md for source and attribution.',
-    basePath: '/public/deck',
+    basePath: 'public/deck',
   },
 ];
 
