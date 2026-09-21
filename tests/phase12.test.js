@@ -14,9 +14,10 @@ test('home hero: the approved cinematic photo asset actually exists on disk (not
   assert.ok(stat.size > 10000, 'home-hero.jpg looks empty/truncated');
 });
 
-test('home hero: main.js references the real hero photo path, with a real functional CTA button (not the JPG pasted over the whole app)', () => {
-  assert.match(mainSrc, /src="public\/images\/arcana\/home-hero\.jpg"/, 'hero image path must be relative (no leading slash) so it works when the app is deployed under a subpath');
-  assert.match(mainSrc, /class="primary hero-cta" data-action="begin"/, 'the CTA must remain a real clickable button, not part of the image');
+test('home hero: main.js renders real card artwork and a real functional CTA button (not a JPG pasted over the whole app)', () => {
+  assert.match(mainSrc, /class="hero-light-cards"/, 'Home should render its real card trio via the light hero layout');
+  assert.match(mainSrc, /cardImageUrl\(c,state\.deckId\)/, 'the hero card trio must use real card artwork, not placeholder images');
+  assert.match(mainSrc, /class="primary" data-action="begin"/, 'the CTA must remain a real clickable button, not part of an image');
 });
 
 test('mobile nav: a menu toggle exists so every nav item (not just language) is reachable under 900px', () => {
@@ -41,14 +42,15 @@ test('performance: below-the-fold thumbnails are lazy-loaded; above-the-fold her
   // the home hero photo is the very first thing painted — lazy-loading it causes a
   // visible flash of blank placeholder, which is exactly the "broken card" symptom this
   // app must never show. It must load eagerly.
-  const heroImg = mainSrc.match(/<img class="hero-background"[^>]*>/)?.[0] ?? '';
-  assert.ok(heroImg.length > 0, 'expected to find the home hero background image tag');
-  assert.ok(!heroImg.includes('loading="lazy"'), 'the home hero photo is above-the-fold and must load eagerly, not lazily');
+  const heroCardsBlock = mainSrc.match(/hero-light-cards[^]*?<\/div>/)?.[0] ?? '';
+  assert.ok(heroCardsBlock.length > 0, 'expected to find the home hero card trio markup');
+  assert.ok(heroCardsBlock.includes('loading="eager"'), 'the home hero cards are above-the-fold and must load eagerly');
+  assert.ok(!heroCardsBlock.includes('loading="lazy"'), 'the home hero cards are above-the-fold and must load eagerly, not lazily');
   const revealImgs = [...mainSrc.matchAll(/<img src="\$\{cardImageUrl\(c,state\.deckId\)\}" alt="\$\{esc\(c\.name\)\} — \$\{c\.orientation\}">/g)];
   assert.ok(revealImgs.length >= 1, 'expected to find the reveal-screen image pattern');
   for (const m of revealImgs) assert.ok(!m[0].includes('loading="lazy"'), 'the single primary reveal image should load eagerly, not lazily');
   // spread-summary / My Readings thumbnails are genuinely below the fold and benefit from lazy loading
-  const thumbImgs = [...mainSrc.matchAll(/<img src="\$\{cardImageUrl\(c,state\.deckId\)\}" alt="\$\{esc\(c\.name\)\}"[^>]*>/g)];
+  const thumbImgs = [...mainSrc.matchAll(/<img src="\$\{cardImageUrl\(c,state\.deckId\)\}" alt="\$\{esc\(c\.name\)\}" loading="lazy" decoding="async">/g)];
   assert.ok(thumbImgs.length >= 1, 'expected to find secondary thumbnail image patterns');
   for (const m of thumbImgs) assert.match(m[0], /loading="lazy"/, 'secondary thumbnails should stay lazy-loaded');
 });
