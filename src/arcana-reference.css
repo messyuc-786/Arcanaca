@@ -32,43 +32,56 @@
   --arcana-line:rgba(201,164,94,.34);
   --arcana-line-strong:rgba(201,164,94,.72);
   --arcana-shadow:0 24px 70px rgba(0,0,0,.52);
-  --arcana-display:'Cinzel',Georgia,serif;
-  --arcana-body:'Cormorant Garamond',Georgia,serif;
-  --arcana-script:'Pinyon Script',cursive;
+  /* Match the approved ARCANA type system everywhere this file references a font token
+     (menu overlay, eyebrows, headings) instead of the older Cinzel/Cormorant/Pinyon set,
+     so the menu and every screen share one consistent typographic identity. */
+  --arcana-display:'Playfair Display',Georgia,serif;
+  --arcana-body:'Lora',Georgia,serif;
+  --arcana-script:'Allura','Pinyon Script',cursive;
+  /* Botanical corner motif (reference screens 01-15 all carry a soft leaf cluster in a
+     corner). Drawn as an inline SVG rather than a photo — reference is a spec, not an
+     asset to paste in. */
+  --leaf-corner:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cg fill='%232F4F3E' fill-opacity='0.55'%3E%3Cellipse cx='40' cy='30' rx='34' ry='16' transform='rotate(-32 40 30)'/%3E%3Cellipse cx='20' cy='70' rx='30' ry='14' transform='rotate(-8 20 70)'/%3E%3Cellipse cx='70' cy='10' rx='28' ry='13' transform='rotate(18 70 10)'/%3E%3Cellipse cx='10' cy='115' rx='24' ry='12' transform='rotate(-52 10 115)'/%3E%3C/g%3E%3Cg fill='%23C9A96A' fill-opacity='0.35'%3E%3Ccircle cx='95' cy='45' r='5'/%3E%3Ccircle cx='60' cy='90' r='4'/%3E%3C/g%3E%3C/svg%3E");
 }
 
 html,body{background:var(--bg);color:var(--arcana-cream)}
 body{font-family:var(--arcana-body);font-size:17px;overflow-x:hidden}
 button,textarea{font-family:inherit}
 
-/* Global shell — the approved direction moved from dark cinematic to warm/light (see
-   00_APPROVED_LIGHT_UIUX_REFERENCE.jpg). The old dark photographic backdrop is disabled
-   for every screen; only the remaining dark cinematic pages (How It Works / About / Why /
-   Thank You — not yet migrated to the light system in this pass) keep it, scoped below. */
+/* Global shell — reference pack composition: warm cream ground, botanical corner
+   decoration, and a soft candlelit ambient glow behind every screen; a single dark
+   header bar (sun mark + wordmark) is shared by all 15 screens, matching the reference's
+   consistent chrome. See 00_MASTER_UIUX_ALL_SCREENS.jpg / 01-15_SCREEN_REFERENCE.jpg. */
 #app{min-height:100svh;background:var(--bg)}
 main[data-screen]{position:relative;min-height:100svh;isolation:isolate;overflow:hidden}
-main[data-screen="how"]::before,main[data-screen="about"]::before,main[data-screen="why"]::before,main[data-screen="thanks"]::before{content:"";position:absolute;inset:0;z-index:-3;background:
+main[data-screen]::before{content:"";position:absolute;inset:0;z-index:-3;background:
+  url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0.55  0 0 0 0 0.45  0 0 0 0 0.3  0 0 0 0.05 0'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)'/%3E%3C/svg%3E"),
+  radial-gradient(ellipse 60% 40% at 12% 8%,rgba(201,164,94,.20),transparent 60%),
+  radial-gradient(ellipse 50% 36% at 88% 4%,rgba(47,79,62,.14),transparent 62%),
+  radial-gradient(ellipse 70% 50% at 50% 100%,rgba(139,111,71,.14),transparent 65%),
+  radial-gradient(ellipse 120% 90% at 50% 45%,transparent 55%,rgba(60,45,25,.07) 100%)}
+main[data-screen]::after{content:"";position:absolute;top:-40px;left:-40px;width:220px;height:220px;z-index:-2;pointer-events:none;opacity:.5;background:var(--leaf-corner) no-repeat;background-size:contain}
+.screen-atmosphere{position:absolute;top:-30px;right:-30px;width:180px;height:180px;z-index:-1;pointer-events:none;opacity:.4;background:var(--leaf-corner) no-repeat;background-size:contain;transform:scaleX(-1)}
+main[data-screen="how"]::before,main[data-screen="about"]::before,main[data-screen="why"]::before,main[data-screen="thanks"]::before{background:
   linear-gradient(180deg,rgba(7,5,4,.30) 0%,rgba(7,5,4,.56) 58%,rgba(7,5,4,.86) 100%),
-  url('../public/images/arcana/home-hero.jpg') 95% 40%/230% auto no-repeat;
+  /* Crop repositioned to the amethyst-crystal/velvet corner of the source photo — the
+     previous 95% 40% crop landed squarely on that photo's own baked-in "More than
+     answers, a calmer brighter you" caption, which visibly duplicated behind this
+     page's real (matching) heading text. This corner has no baked text. */
+  url('../public/images/arcana/home-hero.jpg') 4% 68%/260% auto no-repeat;
   filter:blur(1.5px) saturate(.82) contrast(1.02)}
-main[data-screen="how"]::after,main[data-screen="about"]::after,main[data-screen="why"]::after,main[data-screen="thanks"]::after{content:"";position:absolute;inset:0;z-index:-2;background:
-  radial-gradient(circle at 50% 20%,rgba(201,164,94,.08),transparent 38%),
-  radial-gradient(circle at 50% 100%,rgba(0,0,0,.40),transparent 48%);
-pointer-events:none}
-.screen-atmosphere{position:absolute;inset:0;z-index:-1;pointer-events:none;background:linear-gradient(90deg,rgba(0,0,0,.16),transparent 28%,transparent 72%,rgba(0,0,0,.18))}
 
-/* Header */
-.top{position:relative;height:78px;padding:18px 34px;z-index:30;background:var(--bg);border:0!important;border-bottom:1px solid var(--line)}
-header:has(+ main[data-screen="how"]),header:has(+ main[data-screen="about"]),header:has(+ main[data-screen="why"]),header:has(+ main[data-screen="thanks"]){position:absolute!important;inset:0 0 auto 0;background:linear-gradient(180deg,rgba(7,5,4,.72),transparent)!important;border-bottom:0!important}
+/* Header — dark bar shared by every screen (matches the reference's consistent chrome) */
+.top{position:relative;height:78px;padding:18px 34px;z-index:30;background:linear-gradient(180deg,#132019,#0c1712);border:0!important;border-bottom:1px solid rgba(201,164,94,.22)}
 .top::after{display:none}
 .wordmark{padding:0;display:flex;align-items:center;gap:12px}
-.wordmark span,.nav-wordmark span{font-family:var(--arcana-script);font-size:34px;line-height:1;color:var(--warm-bright);text-transform:lowercase}
+.wordmark span,.nav-wordmark span{font-family:var(--arcana-script);font-size:32px;line-height:1;color:var(--arcana-gold-hi);text-transform:lowercase}
 .wordmark span::first-letter,.nav-wordmark span::first-letter{text-transform:uppercase}
-.wordmark small{font-family:var(--arcana-body);font-size:11px;color:var(--arcana-muted);font-style:italic;border-left:1px solid var(--arcana-line);padding-left:12px}
+.wordmark small{font-family:var(--arcana-body);font-size:11px;color:rgba(240,211,141,.55);font-style:italic;border-left:1px solid rgba(201,164,94,.3);padding-left:12px}
 .top nav{display:flex;align-items:center;gap:7px}
-.top nav>button{padding:9px 12px;color:var(--arcana-muted)!important;font-family:var(--arcana-display)!important;font-size:10px!important;letter-spacing:.08em!important;text-transform:uppercase}
-.top nav>button:hover{color:var(--warm-bright)!important}
-.menu-toggle{display:none}
+.top nav>button{padding:9px 12px;color:rgba(240,211,141,.7)!important;font-family:var(--arcana-display)!important;font-size:10px!important;letter-spacing:.08em!important;text-transform:uppercase}
+.top nav>button:hover{color:var(--arcana-gold-hi)!important}
+.menu-toggle{color:var(--arcana-gold-hi)}
 .top nav.open{display:block}
 
 /* Desktop nav dropdown panel / mobile menu */
@@ -76,7 +89,7 @@ header:has(+ main[data-screen="how"]),header:has(+ main[data-screen="about"]),he
 .nav-backdrop{position:absolute!important;inset:0;background:rgba(5,4,3,.72)!important;backdrop-filter:blur(8px)}
 .nav-backdrop,.nav-panel{display:none}
 .top nav.open .nav-backdrop,.top nav.open .nav-panel{display:block}
-.top nav.open .nav-panel{position:absolute!important;top:18px;right:24px;width:min(360px,calc(100% - 32px));height:auto!important;max-height:calc(100svh - 36px);padding:28px!important;background:linear-gradient(155deg,rgba(37,20,13,.96),rgba(10,7,5,.97));border:1px solid var(--arcana-line-strong);border-radius:16px;box-shadow:var(--arcana-shadow);overflow:auto}
+.top nav.open .nav-panel{position:absolute!important;top:18px;right:24px;width:min(360px,calc(100% - 32px));height:auto!important;max-height:calc(100svh - 36px);padding:28px!important;background:linear-gradient(155deg,rgba(37,20,13,.96),rgba(10,7,5,.97));border:1px solid var(--arcana-line-strong);border-radius:16px;box-shadow:var(--arcana-shadow);overflow:auto;--arcana-cream:#F4EDE1;--arcana-muted:#c9bfae}
 .nav-wordmark{margin-bottom:18px!important}
 .nav-panel>button{padding:15px 5px!important;border-bottom:1px solid var(--arcana-line)!important;color:var(--arcana-cream)!important}
 .nav-panel .lang{border:1px solid var(--arcana-gold)!important;margin-top:18px;padding:10px 18px!important}
@@ -94,9 +107,9 @@ header:has(+ main[data-screen="how"]),header:has(+ main[data-screen="about"]),he
 
 /* Buttons */
 .primary,.secondary,.ghost{border-radius:999px;clip-path:none!important;text-transform:uppercase;letter-spacing:.13em;font-family:var(--arcana-display);font-size:10px;padding:13px 26px;margin-top:20px}
-.primary{background:linear-gradient(180deg,#dfbf76,#a97f35);color:#211508;border:1px solid #f0d38d;box-shadow:0 10px 28px rgba(0,0,0,.35),inset 0 1px rgba(255,255,255,.35)}
-.primary:hover{transform:translateY(-1px);box-shadow:0 14px 34px rgba(0,0,0,.46),0 0 18px rgba(201,164,94,.12)}
-.secondary{background:rgba(201,164,94,.08);border:1px solid var(--arcana-line-strong);color:var(--arcana-gold-hi)}
+.primary{background:linear-gradient(180deg,#2c4a3a,#1c3226);color:#f4ead0;border:1px solid #3c6250;box-shadow:0 10px 28px rgba(15,30,22,.35),inset 0 1px rgba(255,255,255,.08)}
+.primary:hover{transform:translateY(-1px);background:linear-gradient(180deg,#31543f,#20392b);box-shadow:0 14px 34px rgba(15,30,22,.46)}
+.secondary{background:rgba(47,79,62,.06);border:1px solid var(--sage);color:var(--sage)}
 .ghost{background:rgba(139,111,71,.06);border:1px solid var(--arcana-line);color:var(--arcana-muted)}
 
 /* Home: preserve the approved hero image as the source of truth — untouched, locked */
@@ -133,8 +146,41 @@ header:has(+ main[data-screen="how"]),header:has(+ main[data-screen="about"]),he
 .positions b{font-family:var(--arcana-display);color:var(--arcana-gold);font-size:10px}
 .positions strong{font-family:var(--arcana-display);font-size:15px;color:var(--arcana-gold-hi);margin:34px 0 10px}
 .positions span{font-size:14px;color:var(--arcana-muted)}
-.deck-mark{width:118px;height:174px;background:linear-gradient(145deg,#28170e,#0a0705);border:1px solid var(--arcana-gold);box-shadow:0 22px 50px rgba(0,0,0,.5),inset 0 0 0 5px rgba(201,164,94,.08);margin:0 auto 26px}
-.deck-mark span{font-family:var(--arcana-display);letter-spacing:.22em;color:var(--arcana-gold-hi)}
+.deck-mark{position:relative;width:118px;height:174px;margin:0 auto 26px;perspective:600px}
+.shuffle-card{position:absolute;inset:0;border-radius:9px;border:1.5px solid rgba(240,211,141,.7);background:
+  radial-gradient(circle at 50% 42%,rgba(240,211,141,.28),transparent 46%),
+  repeating-conic-gradient(from 0deg at 50% 42%,rgba(201,164,94,.16) 0deg 8deg,transparent 8deg 22.5deg),
+  linear-gradient(160deg,#182a22,#0a1712);
+  box-shadow:0 10px 22px rgba(0,0,0,.4);
+  display:grid;place-items:center;
+  transform:translateY(calc(var(--i) * -0.6px)) rotate(calc((var(--i) - 4) * 1deg))}
+.shuffle-card span{color:var(--arcana-gold-hi);font-size:20px;text-shadow:0 0 12px rgba(240,211,141,.5)}
+.deck-mark.shuffling .shuffle-card{animation-duration:2s;animation-timing-function:cubic-bezier(.45,0,.2,1);animation-iteration-count:1;animation-delay:calc(var(--i) * 0.05s);animation-fill-mode:both}
+.deck-mark.shuffling .shuffle-card:nth-child(odd){animation-name:shuffleMoveLeft}
+.deck-mark.shuffling .shuffle-card:nth-child(even){animation-name:shuffleMoveRight}
+/* Full physical sequence: lift -> split -> fan -> interleave (cards cross toward the
+   opposite side) -> regroup wobble -> settle. Odd/even cards mirror each other so the
+   two halves visibly separate and cross back, not just shift and return. */
+@keyframes shuffleMoveLeft{
+  0%{transform:translate(0,0) rotate(0deg) scale(1)}
+  8%{transform:translate(-4px,-16px) rotate(-2deg) scale(1.04)}
+  24%{transform:translate(-72px,-24px) rotate(-20deg) scale(1.02)}
+  42%{transform:translate(-76px,-2px) rotate(-26deg) scale(1.02)}
+  60%{transform:translate(-18px,-18px) rotate(10deg) scale(1.01)}
+  76%{transform:translate(14px,-6px) rotate(-6deg) scale(1)}
+  90%{transform:translate(-5px,2px) rotate(3deg) scale(1)}
+  100%{transform:translate(0,0) rotate(0deg) scale(1)}
+}
+@keyframes shuffleMoveRight{
+  0%{transform:translate(0,0) rotate(0deg) scale(1)}
+  8%{transform:translate(4px,-16px) rotate(2deg) scale(1.04)}
+  24%{transform:translate(72px,-20px) rotate(20deg) scale(1.02)}
+  42%{transform:translate(76px,2px) rotate(26deg) scale(1.02)}
+  60%{transform:translate(18px,-14px) rotate(-10deg) scale(1.01)}
+  76%{transform:translate(-14px,-4px) rotate(6deg) scale(1)}
+  90%{transform:translate(5px,2px) rotate(-3deg) scale(1)}
+  100%{transform:translate(0,0) rotate(0deg) scale(1)}
+}
 
 /* Card selection */
 .deck-head{align-items:center;border-bottom:1px solid var(--arcana-line);padding-bottom:22px}
@@ -143,12 +189,12 @@ header:has(+ main[data-screen="how"]),header:has(+ main[data-screen="about"]),he
 .progress{gap:8px}
 .progress span{width:31px;height:31px;border-color:var(--arcana-line);color:var(--arcana-dim)}
 .progress .done{background:var(--arcana-gold);border-color:var(--arcana-gold);color:#1d1308}
-.deck-grid{max-width:1100px;margin:0 auto;padding:28px 12px 40px;display:grid;grid-template-columns:repeat(13,1fr);gap:12px;align-items:end}
-.deck-card{width:100%;aspect-ratio:2/3;margin:0;border-radius:7px;border:1px solid rgba(240,211,141,.62);background:
- radial-gradient(circle at 50% 50%,rgba(201,164,94,.20),transparent 38%),
- repeating-linear-gradient(45deg,rgba(201,164,94,.08) 0 1px,transparent 1px 8px),
- linear-gradient(145deg,#25150e,#090706);box-shadow:0 10px 18px rgba(0,0,0,.42);transition:transform .25s ease,box-shadow .25s ease}
-.deck-card::after{content:"✦";position:absolute;inset:7px;border:1px solid rgba(201,164,94,.30);border-radius:4px;display:grid;place-items:center;color:var(--arcana-gold);font-size:15px}
+.deck-grid{max-width:1100px;margin:0 auto;padding:28px 12px 40px;display:grid;grid-template-columns:repeat(9,1fr);gap:14px;align-items:end}
+.deck-card{width:100%;aspect-ratio:2/3;margin:0;border-radius:9px;border:1.5px solid rgba(240,211,141,.7);background:
+ radial-gradient(circle at 50% 42%,rgba(240,211,141,.28),transparent 46%),
+ repeating-conic-gradient(from 0deg at 50% 42%,rgba(201,164,94,.16) 0deg 8deg,transparent 8deg 22.5deg),
+ linear-gradient(160deg,#182a22,#0a1712);box-shadow:0 10px 18px rgba(0,0,0,.42);transition:transform .25s ease,box-shadow .25s ease}
+.deck-card::after{content:"✦";position:absolute;inset:9px;border:1px solid rgba(201,164,94,.35);border-radius:6px;display:grid;place-items:center;color:var(--arcana-gold-hi);font-size:22px;text-shadow:0 0 12px rgba(240,211,141,.5)}
 .deck-card span,.deck-card b{position:relative;z-index:2}
 .deck-card span{font-family:var(--arcana-display);font-size:7px;letter-spacing:.2em;color:var(--arcana-gold)}
 .deck-card b{display:none}
@@ -175,8 +221,15 @@ header:has(+ main[data-screen="how"]),header:has(+ main[data-screen="about"]),he
 .reading-card{padding:22px}
 .reading-card-head b{font-family:var(--arcana-display);font-size:18px;color:var(--arcana-cream)}
 .reading-card-head em{color:var(--arcana-gold)}
-.insight-tab{background:rgba(201,164,94,.04);border-color:var(--arcana-line);color:var(--arcana-muted)}
-.insight-tab.active{background:linear-gradient(180deg,#dfbf76,#a97f35);color:#201507}
+.insight-accordion{margin-top:16px;border-top:1px solid var(--arcana-line)}
+.insight-row{border-bottom:1px solid var(--arcana-line)}
+.insight-row-head{width:100%;display:flex;align-items:center;gap:12px;padding:14px 2px;background:none;border:0;text-align:left;font-family:var(--arcana-display);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--arcana-muted);cursor:pointer}
+.insight-row.open .insight-row-head{color:var(--arcana-cream)}
+.insight-row-head i{font-style:normal;color:var(--arcana-gold);width:20px;text-align:center}
+.insight-row-head span{flex:1}
+.insight-row-head b{font-size:16px;color:var(--arcana-gold)}
+.insight-row-body{padding:0 2px 16px 32px}
+.insight-row-body p{margin:0;font-size:16px}
 .reading-card p,.synthesis p,.synthesis li{font-size:17px;color:var(--arcana-muted);line-height:1.72}
 .synthesis{padding:30px;margin-top:48px;max-width:none}
 .synthesis h2{font-size:30px}
@@ -184,18 +237,50 @@ header:has(+ main[data-screen="how"]),header:has(+ main[data-screen="about"]),he
 .theme-list span{border-color:var(--arcana-line);color:var(--arcana-muted)}
 
 /* Supporting screens */
-.bottom-nav{background:var(--card);border-top:1px solid var(--arcana-line);backdrop-filter:blur(10px);padding:9px 12px 13px;z-index:40}
-.bottom-nav button{font-family:var(--arcana-display);font-size:8px;color:var(--arcana-dim)}
-.bottom-nav button i{color:var(--warm);font-size:17px}
-.bottom-nav button.active,.bottom-nav button.active i{color:var(--warm-bright)}
+.bottom-nav{background:linear-gradient(180deg,#132019,#0c1712);border-top:1px solid rgba(201,164,94,.22);padding:9px 12px 13px;z-index:40}
+.bottom-nav button{font-family:var(--arcana-display);font-size:8px;color:rgba(240,211,141,.55)}
+.bottom-nav button i{color:rgba(240,211,141,.75);font-size:17px}
+.bottom-nav button.active,.bottom-nav button.active i{color:var(--arcana-gold-hi)}
+.daily-screen{padding-top:118px}
+.daily-moment{position:relative;display:grid;place-items:center;margin:24px auto 20px;width:220px;height:300px}
+.daily-glow{position:absolute;inset:-40px;border-radius:50%;background:radial-gradient(circle,rgba(240,211,141,.35),rgba(47,79,62,.12) 55%,transparent 75%);filter:blur(6px)}
+.daily-frame{position:relative;z-index:1;width:200px}
+.daily-card-name{display:block;font-family:var(--arcana-display);font-size:22px;color:var(--arcana-cream);margin-top:6px}
+.daily-card-themes{display:block;color:var(--arcana-gold);letter-spacing:.1em;text-transform:uppercase;font-size:11px;margin-top:4px}
+.daily-quote{margin:22px auto 4px;max-width:420px}
 .daily-card{background:var(--card);border-color:var(--arcana-line);border-radius:14px;box-shadow:0 10px 26px rgba(30,41,59,.07)}
+.learn-banner{position:relative;height:130px;border-radius:22px;overflow:hidden;margin-top:8px;background:
+  radial-gradient(circle at 20% 30%,rgba(230,170,190,.45),transparent 55%),
+  radial-gradient(circle at 75% 20%,rgba(240,211,141,.4),transparent 50%),
+  radial-gradient(circle at 55% 80%,rgba(47,79,62,.3),transparent 55%),
+  linear-gradient(160deg,#f3e6d2,#e7d3b4)}
+.learn-banner-cards{position:absolute;inset:0;display:flex;align-items:flex-end;justify-content:center;gap:14px;padding-bottom:12px}
+.learn-banner-cards img{width:50px;border-radius:6px;border:2px solid rgba(255,255,255,.8);box-shadow:0 10px 20px rgba(0,0,0,.25);transform:rotate(-6deg)}
+.learn-banner-cards img:last-child{transform:rotate(6deg)}
+.learn-header{position:relative;z-index:2;text-align:center;padding:18px 6px 4px}
+.learn-header h2{margin:0 0 4px}
+.learn-header p{color:var(--arcana-muted);margin:0 0 6px;font-size:14px;letter-spacing:.04em;text-transform:uppercase}
+.profile-list{text-align:left;margin-top:30px;border-top:1px solid var(--arcana-line)}
+.profile-row{width:100%;display:flex;align-items:center;gap:16px;padding:16px 6px;background:none;border:0;border-bottom:1px solid var(--arcana-line);font-family:var(--arcana-display);font-size:14px;letter-spacing:.04em;color:var(--arcana-cream)}
+.profile-row i{font-style:normal;width:32px;height:32px;border-radius:50%;border:1px solid var(--arcana-gold);color:var(--arcana-gold);display:grid;place-items:center;font-size:14px}
+.profile-row span{flex:1}
+.profile-row b{color:var(--arcana-gold-hi);font-size:18px}
 .learn-icon,.profile-avatar,.why-row i{border-color:var(--arcana-gold);color:var(--arcana-gold)}
 .hero-card-trio img{border-color:var(--arcana-gold);box-shadow:0 14px 24px rgba(0,0,0,.55)}
 
-/* Cinematic pages: How / About / Why / Thank You */
+/* Cinematic pages: How / About / Why / Thank You — these intentionally keep the dark
+   photographic backdrop, so text needs the ORIGINAL light-on-dark values. Re-scope the
+   two tokens back to light here; every rule above that reads --arcana-cream/--arcana-muted
+   picks this up automatically for anything nested inside .cinematic-page. */
 .cinematic-page{min-height:100svh;position:relative}
+/* These 4 screens keep the dark photographic backdrop (matching the same selector list
+   as the backdrop rule itself, not just .cinematic-page — "why" and "thanks" render a
+   plain <section>, not a .cinematic-page, but still sit on the dark photo), so every
+   text token they read must resolve to a light value here, or headings/body text render
+   dark-on-dark and become unreadable. */
+main[data-screen="how"],main[data-screen="about"],main[data-screen="why"],main[data-screen="thanks"]{--arcana-cream:#F4EDE1;--arcana-muted:#c9bfae;--arcana-dim:#9a8f7c;--warm-bright:#f0d38d;--warm:#e3c78f;--muted:#c9bfae;--muted2:#9a8f7c;--line:rgba(240,211,141,.28);--text:#F4EDE1}
 .cinematic-hero{min-height:100svh!important;padding:118px 24px 100px!important;justify-content:center!important}
-.cinematic-hero::before{content:"";position:fixed;inset:0;background:url('../public/images/arcana/home-hero.jpg') 95% 40%/230% auto no-repeat fixed!important;filter:blur(1.5px) saturate(.9) brightness(.85)!important;transform:none!important}
+.cinematic-hero::before{content:"";position:fixed;inset:0;background:url('../public/images/arcana/home-hero.jpg') 4% 68%/260% auto no-repeat fixed!important;filter:blur(1.5px) saturate(.9) brightness(.85)!important;transform:none!important}
 .cinematic-hero::after{background:linear-gradient(180deg,rgba(7,5,4,.24),rgba(7,5,4,.48) 48%,rgba(7,5,4,.82))!important}
 .cinematic-hero h1{font-size:clamp(38px,6vw,62px);letter-spacing:.05em;margin:10px 0 6px;color:var(--arcana-cream)}
 .cinematic-quote{font-size:17px;color:#c6b99f;max-width:650px}
@@ -210,6 +295,44 @@ header:has(+ main[data-screen="how"]),header:has(+ main[data-screen="about"]),he
 .cinematic-hero>.primary{margin-top:12px}
 .designed-columns{width:min(680px,100%);max-width:none}
 .creator-box{background:rgba(12,7,5,.58);border-color:var(--arcana-line);box-shadow:var(--arcana-shadow)}
+
+/* Decorative corner Tarot cards — presentation only, non-interactive, fixed per composition */
+.decor-cards{position:absolute;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.decor-cards img{position:absolute;width:120px;border-radius:10px;box-shadow:0 20px 40px rgba(30,20,10,.22);opacity:.85}
+.decor-a img:nth-child(1){display:none}
+main[data-screen="readings"] .decor-a img:nth-child(1){display:none}
+.decor-a img:nth-child(2){bottom:-30px;right:-30px;width:140px;transform:rotate(11deg)}
+.decor-b img:nth-child(1){top:60px;right:-34px;transform:rotate(12deg)}
+.decor-b img:nth-child(2){bottom:-26px;left:-30px;width:110px;transform:rotate(-9deg)}
+.decor-d img{width:150px;top:70px;right:-40px;transform:rotate(9deg)}
+.decor-d img:nth-child(2){display:none}
+.decor-d img:nth-child(3){display:none}
+@media(min-width:1101px){
+  .decor-a img:nth-child(1){display:block;top:150px;left:12px;width:120px;transform:rotate(-14deg)}
+  .decor-a img:nth-child(2){right:18px;bottom:24px}
+  .decor-b img:nth-child(1){right:16px}
+  .decor-b img:nth-child(2){left:16px;bottom:20px}
+  main[data-screen="daily"] .decor-b img:nth-child(1){top:180px}
+  .decor-d img:nth-child(1){right:60px;top:90px}
+  .decor-d img:nth-child(2){display:block;right:210px;top:40px;width:110px;transform:rotate(-8deg)}
+  .decor-d img:nth-child(3){display:block;left:40px;bottom:60px;width:120px;transform:rotate(7deg)}
+}
+@media(max-width:700px){
+  .decor-cards img{width:78px}
+  .decor-a img:nth-child(1){top:52px;left:-30px}
+  .decor-a img:nth-child(2){width:88px;bottom:-20px;right:-22px}
+  .decor-b img:nth-child(1){top:50px;right:-26px}
+  main[data-screen="daily"] .decor-b img:nth-child(1){top:160px;opacity:.55}
+  .decor-b img:nth-child(2){display:none}
+  .decor-d img{width:90px;top:56px;right:-24px}
+}
+/* Never let decoration compete on card-interaction screens — one exception: Shuffle
+   ("Prepare the Deck") keeps a single very-faint, extreme-edge card since the user is
+   not yet interacting with individual cards there. */
+.deck-screen .decor-cards,.reveal-screen .decor-cards,.flow-screen .decor-cards,main[data-screen="reading"] .decor-cards,main[data-screen="package-reading"] .decor-cards{display:none}
+.flow-screen .decor-e{display:block}
+.decor-e img{width:130px;opacity:.32;bottom:-60px;right:-50px;transform:rotate(14deg)}
+@media(max-width:700px){.decor-e img{width:90px;bottom:-40px;right:-34px}}
 
 /* Footer */
 footer{position:relative;z-index:5;background:rgba(7,5,4,.88);border-color:var(--arcana-line);color:var(--arcana-dim)}
@@ -228,15 +351,15 @@ footer{position:relative;z-index:5;background:rgba(7,5,4,.88);border-color:var(-
   .wordmark span{font-size:30px}
   .wordmark small{display:none}
   .top nav:not(.open){display:none}
-  .menu-toggle{display:grid;place-items:center;background:var(--bg2);border:1px solid var(--arcana-line);border-radius:50%;width:38px;height:38px;color:var(--warm-bright);z-index:61}
+  .menu-toggle{display:grid;place-items:center;background:rgba(240,211,141,.08);border:1px solid rgba(201,164,94,.35);border-radius:50%;width:38px;height:38px;color:var(--arcana-gold-hi);z-index:61}
   .narrow,.choose-reading{width:min(100% - 28px,520px);padding-top:94px;padding-bottom:90px}
   .deck-screen,.reading,.packages{width:calc(100% - 28px);padding-top:92px;padding-bottom:90px}
   .screen-back{top:78px;left:0}
   .positions{grid-template-columns:1fr;gap:9px}
   .positions article{min-height:auto;padding:17px}
   .positions strong{margin:16px 0 7px}
-  .deck-grid{grid-template-columns:repeat(6,1fr);gap:9px 5px;padding-left:0;padding-right:0}
-  .deck-card{border-radius:5px}
+  .deck-grid{grid-template-columns:repeat(3,1fr);gap:14px 12px;padding-left:8px;padding-right:8px;max-width:360px}
+  .deck-card{border-radius:8px}
   .reveal-screen{width:calc(100% - 28px);padding-top:92px}
   .reveal-layout{grid-template-columns:minmax(0,330px);justify-content:center;gap:24px}
   .reveal-copy{text-align:center}
@@ -244,7 +367,7 @@ footer{position:relative;z-index:5;background:rgba(7,5,4,.88);border-color:var(-
   .mini-frame{width:86px}
   .cinematic-hero{padding:94px 18px 94px!important}
   .cinematic-hero h1{font-size:38px}
-  .cinematic-hero::before{background-position:90% 22%!important;background-size:480% auto!important}
+  .cinematic-hero::before{background-position:4% 62%!important;background-size:420% auto!important}
   .journey-list{margin-top:32px}
   .journey-step{margin-bottom:17px}
   .journey-body h3{font-size:12px}
@@ -257,9 +380,9 @@ footer{position:relative;z-index:5;background:rgba(7,5,4,.88);border-color:var(-
   .narrow h2,.packages h2,.reading h2{font-size:30px}
   .deck-head{display:block}
   .progress{margin-top:14px}
-  .deck-grid{grid-template-columns:repeat(6,1fr)}
+  .deck-grid{grid-template-columns:repeat(3,1fr)}
   .deck-card span{display:none}
-  .deck-card::after{inset:4px;font-size:10px}
+  .deck-card::after{inset:6px;font-size:16px}
   .reading-card{padding:17px}
   .reading-card-head{gap:5px 10px}
   .reading-card-head em{margin-left:0}
