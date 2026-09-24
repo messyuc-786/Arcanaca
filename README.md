@@ -11,47 +11,46 @@ A dependency-light Tarot reading web app built around one core idea: **the user 
 
 ## Screens / UI
 
-A warm cream/parchment/champagne-gold/sage visual system (Playfair Display / Lora / Inter / Allura) runs across the whole app, built from the approved light UI/UX reference pack. Every screen shares one dark forest-green header and bottom-nav bar, a botanical corner motif, and a soft candlelit ambient glow — then each screen's own content composition is rebuilt to match its individual reference frame, not just recolored:
+A warm parchment/ivory/forest-green/antique-gold visual system (Playfair Display / Lora / Inter / Allura) runs across the whole app. Every screen sits on a **real photographic environment** (candles, botanicals, crystals, Tarot books, tabletop — clean assets with no baked-in text/UI, bundled in `public/images/arcana/env/`) behind a warm cream wash, with a shared **floating parchment app shell**:
 
-- **Home** — sun mark, script wordmark, tagline, a real 3-card artwork trio, a quote, and both a primary "Begin a Reading" CTA and a secondary Daily Insight shortcut.
-- **Choose Your Reading** — real package data rendered as icon-badge rows (category icon, name, card count + positions, chevron).
-- **Your Question** — textarea, inspiration-prompt chips, functional character counter.
-- **Shuffle the Deck / Choose Your Cards** — real 78-card deck, rendered as a 3-column grid of gold-sunburst card backs (face-down until selected; card art is never revealed pre-selection).
-- **Your Card** — real revealed card artwork in a bordered frame, name, orientation, traditional meaning.
-- **Your Spread / Detailed Insights / Bigger Picture** — real selected cards plus a per-card **accordion** (Traditional / In This Position / In Relation, expand-one-at-a-time with a live `+`/`−` indicator) and a real cross-card synthesis section.
-- **My Readings** — real saved reading history with real card thumbnails.
-- **Daily Insights** — a real card pulled from the actual deck data, with a "Draw a Card" reroll.
-- **Learn Tarot** — a bespoke top banner (soft floral-toned gradient with two real, tilted card images, echoing the reference's photo-and-flowers treatment) overlapped by the heading, then the Major/Minor Arcana, Spreads & Meanings, and Tarot Basics rows below.
-- **Profile** — a flat divided list (icon circle, label, chevron) rather than boxed cards, matching the reference's list composition.
-- **Package sub-screens** — the package question screen now shares the core "Your Question" composition (icon, eyebrow, heading, position tags, textarea) instead of a plain list; package card-selection, reveal, and reading screens share the same rebuilt deck-grid/accordion components as the core flow.
-- **How It Works / About ARCANA / Why ARCANA / Thank You** — intentionally keep the dark cinematic photographic backdrop, matching those specific screens in the reference pack (they are dark there too), now under the same shared dark header/nav as every other screen.
-- **Menu overlay** — full dark takeover panel, gold icons, dividers, language toggle.
+- **Header** — a rounded, elevated parchment card (gold border + soft shadow), margined off the screen edges rather than a full-width bar; script wordmark in dark forest ink. The same surface is used on every screen, including the dark cinematic pages, so it never needs per-screen recoloring.
+- **Bottom navigation** — a centered floating rounded parchment dock (not edge-to-edge), safe-area aware, with the same gold/forest treatment as the header.
+- **Footer** — a compact editorial credit block (brand lockup + "Created by Bhasad.org · Designed by Urvashi Chandan" + About/How It Works/Profile links), shown only on screens that don't already have the bottom-nav dock (avoids a duplicate/overlapping bar).
 
-All of the above is real HTML/CSS driven by live application state — none of it is a screenshot-as-UI. Reference JPGs supplied during design were used strictly as visual specs (composition, palette, typography, spacing), never as page content, backgrounds standing in for markup, or hardcoded reading text. The botanical corner decoration and card-back sunburst are inline SVG, not photography.
+Per-screen composition:
+
+- **Home** — sun mark, script wordmark, tagline, a real 3-card artwork trio over the candlelit environment photo, a quote, and both a primary "Begin a Reading" CTA and a secondary Daily Insight shortcut.
+- **Choose Your Reading** — real package data as icon-badge rows (category icon, name, card count + positions, chevron) over a botanical/floral environment photo.
+- **Your Question** — textarea, inspiration-prompt chips, functional character counter, over a parchment-desk environment photo.
+- **Shuffle the Deck** — a real 9-card fanned gold-sunburst deck sitting on a candlelit tabletop photo; see "Shuffle animation" below.
+- **Choose Your Cards** — a slice of the real shuffled 78-card deck (12–18 cards depending on spread size) rendered as a 6-column (desktop) / 3-column (mobile) grid of gold-sunburst card backs inside a soft "table" panel, over the same tabletop environment — face-down until selected; card art is never revealed pre-selection. The full 78-card deck and its shuffle/draw/duplicate-prevention logic are untouched; only how many of the already-shuffled cards are *rendered* as tappable tiles changed (`VISIBLE_DECK_SIZE` in `main.js`).
+- **Your Card** — real revealed card artwork in a bordered frame with a soft ambient glow, name, orientation, traditional meaning.
+- **Your Spread / Detailed Insights / Bigger Picture** — real selected cards plus a per-card **accordion** (Traditional / In This Position / In Relation, expand-one-at-a-time with a live `+`/`−` indicator) on parchment-gradient panels with a gold top rule, and a real cross-card synthesis section.
+- **My Readings** — real saved reading history with real card thumbnails, over a books/candle environment photo.
+- **Daily Insights** — one real card in an ornate frame with a soft radial glow, name/keywords, and the day's quote — a single centered moment, not a dashboard card.
+- **Learn Tarot** — a bespoke top banner (two real, tilted card images over a floral-toned gradient) overlapped by the heading, then the Major/Minor Arcana, Spreads & Meanings, and Tarot Basics rows.
+- **Profile** — rows sit on a readable ivory parchment sheet (gold top rule, gold icon circles, dividers) over the environment photo, rather than boxed SaaS cards or floating transparent text.
+- **Package sub-screens** — the package question screen shares the core "Your Question" composition (icon, eyebrow, heading, position tags, textarea); package card-selection, reveal, and reading screens share the same deck-grid/accordion components as the core flow.
+- **How It Works / About ARCANA / Why ARCANA / Thank You** — intentionally keep a dark cinematic photographic backdrop (distinct from the other screens' light environment), under the same floating parchment header/nav as every other screen.
+- **Menu overlay** — a dark forest-green-to-black panel (matching the header/nav's own forest tone) with a real, darkened environment photo behind it instead of flat black, gold icons, dividers, language toggle.
+
+All of the above is real HTML/CSS driven by live application state — none of it is a screenshot-as-UI. Reference material (JPG mockups, environment photo packs) was used strictly as a visual spec/asset source, never as page content or baked-in text; the botanical corner decoration and card-back sunburst are inline SVG, not photography.
+
+### App shell / viewport behavior
+
+`#app` is a flex column (header → main → footer-or-nothing) with `main` taking `flex:1 0 auto`. This means a screen with short content (Home, Your Question, Shuffle, Choose Your Cards, Closing) renders at exactly one viewport height with no forced scroll, while a screen with genuinely long content (Choose Your Reading's package list, Detailed Insights, My Readings, About) grows naturally and scrolls — without hardcoding either behavior per screen. The static footer is only rendered when a screen's content doesn't already include the bottom-nav dock, so the two never overlap.
 
 ### Tarot atmosphere layer
 
-Non-interactive screens (Choose Your Reading, Your Question, Daily Insights, Profile, My Readings) carry a shared `decorCards()` component: a fixed, per-screen composition of 2 real card images (from the same bundled RWS deck used everywhere else) placed at the outer corners with rotation/scale/shadow, `aria-hidden`, `pointer-events:none`, and `display:none` on all card-interaction screens (Choose Your Cards, Your Card, Shuffle, Your Spread) so they never compete with the actual reading. They are drawn from a fixed name list per composition (`DECOR_SETS` in `main.js`) — never randomized, never entering `state.reading`/`state.packageReading`, so they cannot affect shuffle, selection, orientation, or history.
-
-### Typography consistency
-
-The Menu overlay and every `arcana-reference.css` heading/eyebrow now render in the same Playfair Display / Lora / Allura system as the rest of the app (previously they referenced leftover Cinzel/Cormorant/Pinyon tokens from the earlier dark-cinematic build, which made the menu feel like a different product).
-
-### Daily Insights
-
-Rebuilt as a single centered moment rather than a dashboard card: one real card in an ornate frame with a soft radial glow behind it, the card name/keywords below it, then the day's quote — no boxed "daily-card" panel.
-
-### Prepare the Deck (Shuffle)
-
-Keeps one faint, extreme-edge decorative card (32% opacity, mostly off-canvas) so the screen doesn't feel like a bare landing page, while the actual 9-card fanned deck stays the dominant, undistracted visual.
+Non-interactive screens carry a shared `decorCards()` component: a fixed, per-screen composition of real card images placed at the outer corners with rotation/scale/shadow, `aria-hidden`, `pointer-events:none`, and suppressed on all card-interaction screens (Choose Your Cards, Your Card, Shuffle, Your Spread) so they never compete with the actual reading. They are drawn from a fixed name list per composition (`DECOR_SETS` in `main.js`) — never randomized, never entering `state.reading`/`state.packageReading`, so they cannot affect shuffle, selection, orientation, or history.
 
 ### Shuffle animation
 
-The Shuffle screen renders a 9-card fanned deck (`.deck-mark` / `.shuffle-card`, gold-sunburst backs). Pressing "Shuffle & enter the deck" disables the button, shows "Shuffling…", and plays a 2.4s CSS keyframe animation (`shuffleMoveLeft` / `shuffleMoveRight`) where alternating cards split apart, interleave, and converge back into the deck — purely presentational. The actual draw (`createReading`) only runs after the animation's `setTimeout` resolves, so animation never influences randomization. `prefers-reduced-motion` skips straight to the draw with no animation, per `afterAnim()`'s existing reduced-motion branch.
+The Shuffle screen renders a 9-card fanned deck (`.deck-mark` / `.shuffle-card`, gold-sunburst backs). Pressing "Shuffle & enter the deck" disables the button, shows "Shuffling…", and plays a ~2.4s CSS keyframe animation (`shuffleMoveLeft` / `shuffleMoveRight`, staggered per card) where alternating cards lift, split, fan, interleave, and converge back into the deck — purely presentational. The actual draw (`createReading`) only runs after the animation's `setTimeout` resolves, so animation never influences randomization. `prefers-reduced-motion` skips straight to the draw with no animation, per `afterAnim()`'s reduced-motion branch.
 
 ## Current feature set
 
-- ARCANA branding, "Ask the Cards." tagline, Bhasad.org / Lumina Coproduct footer credit
+- ARCANA branding, "Ask the Cards." tagline, "Created by Bhasad.org · Designed by Urvashi Chandan" credit (footer + About page)
 - Home → Question → Spread explainer → Shuffle → Choose → Reveal → Reading, for the core 3-card spread
 - A **Packages** catalog offering six real Tarot spreads (see below), each running the same select → ask → shuffle → choose → reveal → interpret → synthesize flow as the core reading
 - Complete, canonical 78-card deck (22 Major + 56 Minor Arcana), no duplicates possible within a reading
@@ -150,7 +149,23 @@ src/
   app-state.js     approved screen list + flow-transition rules
   i18n.js          English/Hindi UI copy
   main.js          screen rendering + interaction wiring (no framework)
-  styles.css       responsive visual system
+  styles.css       base responsive visual system
+  arcana-reference.css  light-theme visual layer: app shell (header/nav/footer),
+                    environment photo wiring, card/panel/accordion styling — loaded
+                    after styles.css and wins on any selector collision
+
+public/
+  deck/            all 78 Rider-Waite-Smith card images
+  images/arcana/
+    env/           15 clean environment photos (one per screen — Home, Choose Your
+                    Reading, Your Question, Shuffle, Choose Your Cards, Your Card,
+                    Your Spread, Detailed Insights, Bigger Picture, My Readings,
+                    Daily Insights, Learn Tarot, Profile, Why Arcana, Closing);
+                    no baked-in text/UI, referenced from arcana-reference.css as
+                    real CSS background layers, never as page screenshots
+    home-hero.jpg  dark cinematic backdrop used only by How It Works / About /
+                    Why / Thank You, cropped to a text-free corner (see comment
+                    in arcana-reference.css for why the crop position matters)
 
 tests/
   tarot.test.js           deck + core/package reading engine tests
