@@ -62,7 +62,7 @@ button,textarea{font-family:inherit}
 #app{display:flex;flex-direction:column;min-height:100svh;min-height:100dvh;background:var(--bg)}
 .top{flex:0 0 auto}
 main[data-screen]{position:relative;flex:1 0 auto;isolation:isolate;overflow:hidden;padding-bottom:env(safe-area-inset-bottom)}
-main[data-screen]:has(.bottom-nav){padding-bottom:calc(70px + env(safe-area-inset-bottom))}
+main[data-screen]:has(.bottom-nav){padding-bottom:calc(96px + env(safe-area-inset-bottom))}
 footer{flex:0 0 auto}
 main[data-screen]::before{content:"";position:absolute;inset:0;z-index:-3;background:
   url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0.55  0 0 0 0 0.45  0 0 0 0 0.3  0 0 0 0.05 0'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)'/%3E%3C/svg%3E"),
@@ -110,17 +110,24 @@ main[data-screen="how"]::before,main[data-screen="about"]::before,main[data-scre
   url('../public/images/arcana/home-hero.jpg') 4% 68%/260% auto no-repeat;
   filter:blur(1.5px) saturate(.82) contrast(1.02)}
 
-/* Header — dark bar shared by every screen (matches the reference's consistent chrome) */
-.top{position:relative;height:78px;padding:18px 34px;z-index:30;background:linear-gradient(180deg,#132019,#0c1712);border:0!important;border-bottom:1px solid rgba(201,164,94,.22)}
+/* Header — a floating parchment surface rather than a solid app-bar, so it reads as
+   part of the Tarot-table artwork rather than a generic navbar. Always parchment,
+   regardless of the screen behind it (even the dark cinematic pages), so contrast and
+   text color never need special-casing per screen. */
+.top{position:relative;height:70px;margin:14px 14px 0;padding:0 22px;z-index:30;
+  background:linear-gradient(180deg,rgba(255,253,248,.92),rgba(251,243,226,.88));
+  border:1px solid rgba(201,164,94,.35)!important;border-radius:20px;
+  box-shadow:0 10px 30px rgba(30,20,10,.14);backdrop-filter:blur(10px)}
+.top::before{content:"";position:absolute;left:50%;top:0;transform:translateX(-50%);width:34px;height:2px;background:linear-gradient(90deg,transparent,var(--arcana-gold),transparent);opacity:.7}
 .top::after{display:none}
 .wordmark{padding:0;display:flex;align-items:center;gap:12px}
-.wordmark span,.nav-wordmark span{font-family:var(--arcana-script);font-size:32px;line-height:1;color:var(--arcana-gold-hi);text-transform:lowercase}
+.wordmark span,.nav-wordmark span{font-family:var(--arcana-script);font-size:30px;line-height:1;color:#2F4F3E;text-transform:lowercase}
 .wordmark span::first-letter,.nav-wordmark span::first-letter{text-transform:uppercase}
-.wordmark small{font-family:var(--arcana-body);font-size:11px;color:rgba(240,211,141,.55);font-style:italic;border-left:1px solid rgba(201,164,94,.3);padding-left:12px}
+.wordmark small{font-family:var(--arcana-body);font-size:10.5px;color:#8a7f6c;font-style:italic;border-left:1px solid rgba(139,111,71,.3);padding-left:12px}
 .top nav{display:flex;align-items:center;gap:7px}
-.top nav>button{padding:9px 12px;color:rgba(240,211,141,.7)!important;font-family:var(--arcana-display)!important;font-size:10px!important;letter-spacing:.08em!important;text-transform:uppercase}
-.top nav>button:hover{color:var(--arcana-gold-hi)!important}
-.menu-toggle{color:var(--arcana-gold-hi)}
+.top nav>button{padding:9px 12px;color:#5b5346!important;font-family:var(--arcana-display)!important;font-size:10px!important;letter-spacing:.08em!important;text-transform:uppercase}
+.top nav>button:hover{color:#2F4F3E!important}
+.menu-toggle{color:#2F4F3E}
 .top nav.open{display:block}
 
 /* Desktop nav dropdown panel / mobile menu */
@@ -291,10 +298,16 @@ main[data-screen="how"]::before,main[data-screen="about"]::before,main[data-scre
 .theme-list span{border-color:var(--arcana-line);color:var(--arcana-muted)}
 
 /* Supporting screens */
-.bottom-nav{background:linear-gradient(180deg,#132019,#0c1712);border-top:1px solid rgba(201,164,94,.22);padding:9px 12px 13px;z-index:40}
-.bottom-nav button{font-family:var(--arcana-display);font-size:8px;color:rgba(240,211,141,.55)}
-.bottom-nav button i{color:rgba(240,211,141,.75);font-size:17px}
-.bottom-nav button.active,.bottom-nav button.active i{color:var(--arcana-gold-hi)}
+/* Bottom nav — a floating parchment dock (not an edge-to-edge black bar), matching the
+   header treatment so the two shell pieces read as one design. */
+.bottom-nav{position:fixed;left:50%;right:auto;transform:translateX(-50%);bottom:calc(14px + env(safe-area-inset-bottom));width:min(94%,460px);
+  background:linear-gradient(180deg,rgba(255,253,248,.95),rgba(251,243,226,.92));
+  border:1px solid rgba(201,164,94,.35);border-radius:22px;
+  box-shadow:0 14px 34px rgba(30,20,10,.18);backdrop-filter:blur(10px);
+  padding:10px 6px;z-index:40}
+.bottom-nav button{font-family:var(--arcana-display);font-size:8px;color:#8a7f6c}
+.bottom-nav button i{color:#5b5346;font-size:17px}
+.bottom-nav button.active,.bottom-nav button.active i{color:#2F4F3E}
 .daily-screen{padding-top:118px}
 .daily-moment{position:relative;display:grid;place-items:center;margin:24px auto 20px;width:220px;height:300px}
 .daily-glow{position:absolute;inset:-40px;border-radius:50%;background:radial-gradient(circle,rgba(240,211,141,.35),rgba(47,79,62,.12) 55%,transparent 75%);filter:blur(6px)}
@@ -397,7 +410,15 @@ main[data-screen="readings"] .decor-a img:nth-child(1){display:none}
 @media(max-width:700px){.decor-e img{width:90px;bottom:-40px;right:-34px}}
 
 /* Footer */
-footer{position:relative;z-index:5;background:rgba(7,5,4,.88);border-color:var(--arcana-line);color:var(--arcana-dim)}
+/* Footer — a compact editorial credit block on parchment, not a full-width dark bar. */
+footer{position:relative;z-index:5;background:linear-gradient(180deg,rgba(251,243,226,.6),rgba(251,243,226,.9));border-top:1px solid rgba(201,164,94,.3);display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px 20px;padding:16px 28px}
+.footer-brand{display:flex;flex-direction:column;gap:2px}
+.footer-word{font-family:var(--arcana-script);font-size:20px;color:#2F4F3E;line-height:1}
+.footer-brand small{font-size:10px;letter-spacing:.04em;color:#8a7f6c}
+.footer-links{display:flex;gap:18px}
+.footer-links button{background:none;border:0;padding:0;font-family:var(--arcana-display);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:#5b5346}
+.footer-links button:hover{color:#2F4F3E}
+@media(max-width:560px){footer{padding:14px 20px;justify-content:center;text-align:center}.footer-brand{align-items:center}.footer-links{gap:14px}}
 
 /* Desktop composition */
 @media(min-width:901px){
