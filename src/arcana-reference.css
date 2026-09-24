@@ -194,7 +194,7 @@ main[data-screen="how"]::before,main[data-screen="about"]::before,main[data-scre
 .ask-differently-use:disabled{opacity:.5;cursor:not-allowed}
 .ask-differently-keep{background:transparent;border:1px solid var(--arcana-line-strong);color:#3a2c1a}
 .ask-differently-keep:hover,.ask-differently-keep:focus-visible,.ask-differently-use:not(:disabled):hover,.ask-differently-use:not(:disabled):focus-visible{filter:brightness(1.05)}
-@media(max-width:520px){.ask-differently-actions{flex-direction:column}.ask-differently-use,.ask-differently-keep{width:100%}}
+@media(max-width:520px){.ask-differently-actions{flex-direction:column}.ask-differently-use,.ask-differently-keep{width:100%}.hero-light{padding:36px 24px;gap:10px}.hero-light-cards{margin:6px 0}.hero-light-quote{margin-top:8px}}
 
 /* Choose reading */
 .choose-reading{width:min(760px,calc(100% - 40px));padding-top:118px}
@@ -550,6 +550,9 @@ footer{position:relative;z-index:5;background:linear-gradient(180deg,rgba(251,24
 @media(max-width:560px){
   body{font-size:16px}
   .ask-chips{grid-template-columns:1fr}
+  .ask-screen{padding-top:78px;padding-bottom:36px}
+  .ask-screen textarea{height:120px;margin-top:18px}
+  .ask-inspiration{margin-top:14px}
   .narrow h2,.packages h2,.reading h2{font-size:30px}
   .deck-head{display:block}
   .progress{margin-top:14px}
