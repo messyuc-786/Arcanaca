@@ -243,9 +243,7 @@ main[data-screen="how"]::before,main[data-screen="about"]::before,main[data-scre
 
 /* Reveal */
 .reveal-screen{min-height:100svh;padding:118px 0 90px;width:min(1060px,calc(100% - 64px));margin:auto}
-.reveal-layout{position:relative;max-width:none;grid-template-columns:minmax(300px,430px) 1fr;gap:76px;margin:30px auto 0;padding:40px 24px;border-radius:28px;background:
-  radial-gradient(ellipse 70% 65% at 30% 45%,rgba(240,211,141,.16),transparent 65%),
-  radial-gradient(ellipse 60% 70% at 90% 80%,rgba(47,79,62,.12),transparent 68%)}
+.reveal-layout{position:relative;max-width:none;grid-template-columns:minmax(300px,430px) 1fr;gap:76px;margin:30px auto 0;padding:40px 24px}
 .tarot-frame{position:relative;z-index:1;padding:9px;background:#eadbb9;border:1px solid var(--arcana-gold);border-radius:7px;box-shadow:0 28px 70px rgba(0,0,0,.55)}
 .reveal-copy h2{font-size:clamp(32px,5vw,52px);font-family:var(--arcana-display);color:var(--arcana-cream)}
 .reveal-copy .muted{max-width:520px}
@@ -376,6 +374,7 @@ main[data-screen="readings"] .decor-a img:nth-child(1){display:none}
   .decor-a img:nth-child(2){width:88px;bottom:-20px;right:-22px}
   .decor-b img:nth-child(1){top:50px;right:-26px}
   main[data-screen="daily"] .decor-b img:nth-child(1){top:160px;opacity:.55}
+  main[data-screen="question"] .decor-b img:nth-child(1){top:-10px;right:-58px;width:80px;opacity:.45}
   .decor-b img:nth-child(2){display:none}
   .decor-d img{width:90px;top:56px;right:-24px}
 }
