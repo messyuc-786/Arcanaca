@@ -142,9 +142,47 @@ export function getDailyCard() {
     return null;
   }
 }
+// Daily Card History — a small append-only record, one entry per calendar day, kept
+// separate from `DAILY_KEY` (which only tracks *today's* pointer) so past days can never
+// be overwritten by a later day's card. Reflection text is optional and stored per-day.
+const DAILY_HISTORY_KEY = 'arcana.dailyHistory.v1';
+function readDailyHistory() {
+  try {
+    const raw = store.getItem(DAILY_HISTORY_KEY);
+    const parsed = raw ? JSON.parse(raw) : [];
+    return Array.isArray(parsed) ? parsed : [];
+  } catch {
+    return [];
+  }
+}
+function writeDailyHistory(list) {
+  try {
+    store.setItem(DAILY_HISTORY_KEY, JSON.stringify(list));
+    return true;
+  } catch {
+    return false;
+  }
+}
+export function getDailyHistory() {
+  return [...readDailyHistory()].sort((a, b) => b.day.localeCompare(a.day));
+}
+export function setDailyReflection(day, text) {
+  const list = readDailyHistory();
+  const idx = list.findIndex(e => e.day === day);
+  if (idx === -1) return null;
+  list[idx] = { ...list[idx], reflection: text.trim() };
+  writeDailyHistory(list);
+  return list[idx];
+}
 export function setDailyCard(cardIndex) {
   try {
-    store.setItem(DAILY_KEY, JSON.stringify({ day: todayKey(), cardIndex }));
+    const day = todayKey();
+    const history = readDailyHistory();
+    const idx = history.findIndex(e => e.day === day);
+    if (idx === -1) history.push({ day, cardIndex, reflection: '' });
+    else history[idx] = { ...history[idx], cardIndex };
+    writeDailyHistory(history);
+    store.setItem(DAILY_KEY, JSON.stringify({ day, cardIndex }));
     return true;
   } catch {
     return false;

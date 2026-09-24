@@ -345,6 +345,7 @@ main[data-screen="how"]::before,main[data-screen="about"]::before,main[data-scre
 .timeline-item{display:flex;flex-direction:column;gap:2px;text-align:left;background:rgba(201,164,94,.06);border:1px solid var(--arcana-line);border-radius:9px;padding:12px 16px}
 .timeline-item .timeline-date{font-size:11px;letter-spacing:.08em;color:var(--arcana-gold);text-transform:uppercase}
 .timeline-item small{color:var(--arcana-muted);font-size:13px}
+.timeline-flags{color:var(--arcana-gold)!important;font-size:11px!important;letter-spacing:.03em;margin-top:2px}
 .synthesis h2{font-size:30px}
 .synthesis h3{color:var(--arcana-gold);font-size:11px;letter-spacing:.15em;text-transform:uppercase}
 .theme-list span{border-color:var(--arcana-line);color:var(--arcana-muted)}
