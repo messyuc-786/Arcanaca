@@ -47,7 +47,7 @@ function makeId() {
 // in at save time, so revisiting it later never re-derives text from the live card data —
 // if card content changes in a future release, previously saved readings stay exactly as
 // they were read.
-export function snapshotReading({ question, spreadId, spreadName, readings, story, themes, reflection }) {
+export function snapshotReading({ question, spreadId, spreadName, readings, story, themes, reflection, noticings, relationships, agency }) {
   return {
     id: makeId(),
     createdAt: new Date().toISOString(),
@@ -63,10 +63,15 @@ export function snapshotReading({ question, spreadId, spreadName, readings, stor
       traditionalMeaning: r.traditionalMeaning,
       positionContext: r.positionContext,
       questionContext: r.questionContext,
+      everydayLife: r.everydayLife,
+      whatToConsider: r.whatToConsider,
     })),
     story,
     themes,
     reflection,
+    noticings,
+    relationships,
+    agency,
   };
 }
 
@@ -88,6 +93,62 @@ export function getReading(id) {
 export function deleteReading(id) {
   const all = readAll().filter(r => r.id !== id);
   writeAll(all);
+}
+
+// A personal journal note the user attaches to a saved reading after the fact — purely
+// additive metadata, never fed back into the interpretation engine or any card data.
+export function updateReadingNote(id, note) {
+  const all = readAll();
+  const idx = all.findIndex(r => r.id === id);
+  if (idx === -1) return null;
+  all[idx] = { ...all[idx], note: note.trim() };
+  writeAll(all);
+  return all[idx];
+}
+
+// Look Again — a later reflection the user attaches to a saved reading when they revisit it.
+// Appended to a `lookAgains` array so a reading can carry several reflections over time,
+// entirely separate from the original journal `note`, which is never overwritten by this.
+export function addLookAgain(id, text) {
+  const trimmed = text.trim();
+  if (!trimmed) return null;
+  const all = readAll();
+  const idx = all.findIndex(r => r.id === id);
+  if (idx === -1) return null;
+  const entry = { date: new Date().toISOString(), text: trimmed };
+  const lookAgains = [...(all[idx].lookAgains || []), entry];
+  all[idx] = { ...all[idx], lookAgains };
+  writeAll(all);
+  return all[idx];
+}
+
+// Daily Card — one card per calendar day, persisted so returning to the app later the
+// same day (or after a reload) shows the same card rather than a new random one each
+// time. A user-initiated "Draw a Card" explicitly replaces today's card; ARCANA never
+// silently swaps it. Stored separately from reading history since it isn't a reading.
+const DAILY_KEY = 'arcana.daily.v1';
+function todayKey() {
+  const d = new Date();
+  return `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`;
+}
+export function getDailyCard() {
+  try {
+    const raw = store.getItem(DAILY_KEY);
+    if (!raw) return null;
+    const parsed = JSON.parse(raw);
+    if (!parsed || parsed.day !== todayKey() || typeof parsed.cardIndex !== 'number') return null;
+    return parsed.cardIndex;
+  } catch {
+    return null;
+  }
+}
+export function setDailyCard(cardIndex) {
+  try {
+    store.setItem(DAILY_KEY, JSON.stringify({ day: todayKey(), cardIndex }));
+    return true;
+  } catch {
+    return false;
+  }
 }
 
 // Test-only escape hatch to exercise corrupted/malformed storage without needing a real

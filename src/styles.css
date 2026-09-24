@@ -178,6 +178,7 @@ footer{height:68px;border-top:1px solid var(--line);display:flex;justify-content
 .reading-row-info{flex:1;min-width:180px}
 .reading-row-info strong{display:block;font-family:var(--font-display);font-weight:500;color:var(--text);margin-bottom:4px}
 .reading-row-info span{color:var(--muted2);font-size:13px}
+.reading-row-note{display:block;margin-top:6px;font-style:italic;color:var(--muted);font-size:13px}
 .reading-row-actions{display:flex;gap:8px;flex-wrap:wrap}
 .reading-row-actions .secondary,.reading-row-actions .ghost{margin-top:0;padding:9px 16px;font-size:11px}
 .back-link{margin-bottom:20px}
