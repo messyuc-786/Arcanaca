@@ -336,6 +336,15 @@ main[data-screen="how"]::before,main[data-screen="about"]::before,main[data-scre
 .theme-card .theme-meta{color:var(--arcana-dim);font-size:12px;letter-spacing:.03em;margin:0 0 12px}
 .theme-card .theme-cards{font-size:14px;color:var(--arcana-muted);margin:0 0 12px}
 .theme-card .theme-reflect-label{margin-top:16px}
+.journey-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(90px,1fr));gap:14px}
+.journey-card-item{display:flex;flex-direction:column;align-items:center;gap:6px;background:transparent;border:none;padding:0;text-align:center}
+.journey-card-item img{width:64px;border-radius:5px;border:1px solid var(--arcana-gold);box-shadow:0 8px 18px rgba(0,0,0,.3)}
+.journey-card-item span{font-size:12px;color:var(--arcana-cream);line-height:1.3}
+.journey-card-item small{font-size:10px;color:var(--arcana-dim)}
+.timeline-list{display:flex;flex-direction:column;gap:10px}
+.timeline-item{display:flex;flex-direction:column;gap:2px;text-align:left;background:rgba(201,164,94,.06);border:1px solid var(--arcana-line);border-radius:9px;padding:12px 16px}
+.timeline-item .timeline-date{font-size:11px;letter-spacing:.08em;color:var(--arcana-gold);text-transform:uppercase}
+.timeline-item small{color:var(--arcana-muted);font-size:13px}
 .synthesis h2{font-size:30px}
 .synthesis h3{color:var(--arcana-gold);font-size:11px;letter-spacing:.15em;text-transform:uppercase}
 .theme-list span{border-color:var(--arcana-line);color:var(--arcana-muted)}

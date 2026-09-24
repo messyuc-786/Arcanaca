@@ -54,10 +54,10 @@ export function extractThemes(readings) {
       const themeWords = (c.orientation === 'Reversed' ? def.reversedThemes : def.uprightThemes) || [];
       for (const word of themeWords) {
         for (const cat of matchCategories(word)) {
-          if (!byCategory[cat]) byCategory[cat] = { name: cat, readingIds: new Set(), cardNames: new Set(), mostRecent: reading.createdAt };
+          if (!byCategory[cat]) byCategory[cat] = { name: cat, readingIds: new Set(), cards: new Map(), mostRecent: reading.createdAt };
           const entry = byCategory[cat];
           entry.readingIds.add(reading.id);
-          entry.cardNames.add(c.name);
+          entry.cards.set(c.id, { id: c.id, name: c.name, imageCode: c.imageCode, orientation: c.orientation });
           if (new Date(reading.createdAt) > new Date(entry.mostRecent)) entry.mostRecent = reading.createdAt;
           seenInThisReading.add(cat);
         }
@@ -70,9 +70,31 @@ export function extractThemes(readings) {
       name: e.name,
       count: e.readingIds.size,
       readingIds: [...e.readingIds],
-      cardNames: [...e.cardNames].slice(0, 5),
+      cards: [...e.cards.values()].slice(0, 8),
+      cardNames: [...e.cards.values()].map(c => c.name).slice(0, 5),
       mostRecent: e.mostRecent,
       reflectQuestion: REFLECT_QUESTIONS[e.name],
     }))
+    .sort((a, b) => b.count - a.count || new Date(b.mostRecent) - new Date(a.mostRecent));
+}
+
+// Cards the user has encountered across two or more saved readings — actual counts and dates
+// only, no invented statistics. Used by the "Cards You Keep Encountering" section of Themes.
+export function cardJourney(readings) {
+  const byCard = {};
+  for (const reading of readings) {
+    for (const c of reading.cards) {
+      if (!byCard[c.id]) byCard[c.id] = { id: c.id, name: c.name, imageCode: c.imageCode, orientation: c.orientation, readingIds: new Set(), mostRecent: reading.createdAt };
+      const entry = byCard[c.id];
+      entry.readingIds.add(reading.id);
+      if (new Date(reading.createdAt) >= new Date(entry.mostRecent)) {
+        entry.mostRecent = reading.createdAt;
+        entry.orientation = c.orientation;
+      }
+    }
+  }
+  return Object.values(byCard)
+    .filter(e => e.readingIds.size >= 2)
+    .map(e => ({ id: e.id, name: e.name, imageCode: e.imageCode, orientation: e.orientation, count: e.readingIds.size, mostRecent: e.mostRecent }))
     .sort((a, b) => b.count - a.count || new Date(b.mostRecent) - new Date(a.mostRecent));
 }
