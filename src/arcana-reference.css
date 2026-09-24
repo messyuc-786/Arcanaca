@@ -259,7 +259,7 @@ main[data-screen="how"]::before,main[data-screen="about"]::before,main[data-scre
 .progress{gap:8px}
 .progress span{width:31px;height:31px;border-color:var(--arcana-line);color:var(--arcana-dim)}
 .progress .done{background:var(--arcana-gold);border-color:var(--arcana-gold);color:#1d1308}
-.deck-table{position:relative;max-width:880px;margin:20px auto 0;padding:36px 20px 40px;border-radius:28px;background:
+.deck-table{position:relative;width:100%;max-width:880px;margin:20px auto 0;padding:36px 20px 40px;border-radius:28px;background:
   radial-gradient(ellipse 80% 70% at 50% 35%,rgba(240,211,141,.16),transparent 68%),
   radial-gradient(ellipse 90% 80% at 50% 100%,rgba(47,79,62,.14),transparent 70%),
   linear-gradient(180deg,rgba(201,164,94,.06),rgba(201,164,94,0));
