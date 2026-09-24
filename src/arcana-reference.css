@@ -189,7 +189,7 @@ main[data-screen="how"]::before,main[data-screen="about"]::before,main[data-scre
 .progress{gap:8px}
 .progress span{width:31px;height:31px;border-color:var(--arcana-line);color:var(--arcana-dim)}
 .progress .done{background:var(--arcana-gold);border-color:var(--arcana-gold);color:#1d1308}
-.deck-grid{max-width:1100px;margin:0 auto;padding:28px 12px 40px;display:grid;grid-template-columns:repeat(9,1fr);gap:14px;align-items:end}
+.deck-grid{max-width:520px;margin:0 auto;padding:28px 12px 40px;display:grid;grid-template-columns:repeat(4,1fr);gap:16px;align-items:end}
 .deck-card{width:100%;aspect-ratio:2/3;margin:0;border-radius:9px;border:1.5px solid rgba(240,211,141,.7);background:
  radial-gradient(circle at 50% 42%,rgba(240,211,141,.28),transparent 46%),
  repeating-conic-gradient(from 0deg at 50% 42%,rgba(201,164,94,.16) 0deg 8deg,transparent 8deg 22.5deg),
@@ -280,7 +280,13 @@ main[data-screen="how"]::before,main[data-screen="about"]::before,main[data-scre
    dark-on-dark and become unreadable. */
 main[data-screen="how"],main[data-screen="about"],main[data-screen="why"],main[data-screen="thanks"]{--arcana-cream:#F4EDE1;--arcana-muted:#c9bfae;--arcana-dim:#9a8f7c;--warm-bright:#f0d38d;--warm:#e3c78f;--muted:#c9bfae;--muted2:#9a8f7c;--line:rgba(240,211,141,.28);--text:#F4EDE1}
 .cinematic-hero{min-height:100svh!important;padding:118px 24px 100px!important;justify-content:center!important}
-.cinematic-hero::before{content:"";position:fixed;inset:0;background:url('../public/images/arcana/home-hero.jpg') 4% 68%/260% auto no-repeat fixed!important;filter:blur(1.5px) saturate(.9) brightness(.85)!important;transform:none!important}
+/* The element is already position:fixed (viewport-pinned), which made the additional
+   background-attachment:fixed on the image layer redundant — and that combination is a
+   known source of paint failures on mobile browsers (notably Android Chrome), which is
+   almost certainly why the backdrop could fail to render on phones. Dropping the
+   redundant "fixed" keyword fixes that without touching the crop position/size math
+   (position:fixed + inset:0 still sizes this to the viewport exactly as before). */
+.cinematic-hero::before{content:"";position:fixed;inset:0;background:url('../public/images/arcana/home-hero.jpg') 4% 68%/260% auto no-repeat!important;filter:blur(1.5px) saturate(.9) brightness(.85)!important;transform:none!important}
 .cinematic-hero::after{background:linear-gradient(180deg,rgba(7,5,4,.24),rgba(7,5,4,.48) 48%,rgba(7,5,4,.82))!important}
 .cinematic-hero h1{font-size:clamp(38px,6vw,62px);letter-spacing:.05em;margin:10px 0 6px;color:var(--arcana-cream)}
 .cinematic-quote{font-size:17px;color:#c6b99f;max-width:650px}
@@ -358,7 +364,7 @@ footer{position:relative;z-index:5;background:rgba(7,5,4,.88);border-color:var(-
   .positions{grid-template-columns:1fr;gap:9px}
   .positions article{min-height:auto;padding:17px}
   .positions strong{margin:16px 0 7px}
-  .deck-grid{grid-template-columns:repeat(3,1fr);gap:14px 12px;padding-left:8px;padding-right:8px;max-width:360px}
+  .deck-grid{grid-template-columns:repeat(4,1fr);gap:12px 10px;padding-left:8px;padding-right:8px;max-width:400px}
   .deck-card{border-radius:8px}
   .reveal-screen{width:calc(100% - 28px);padding-top:92px}
   .reveal-layout{grid-template-columns:minmax(0,330px);justify-content:center;gap:24px}
@@ -380,7 +386,7 @@ footer{position:relative;z-index:5;background:rgba(7,5,4,.88);border-color:var(-
   .narrow h2,.packages h2,.reading h2{font-size:30px}
   .deck-head{display:block}
   .progress{margin-top:14px}
-  .deck-grid{grid-template-columns:repeat(3,1fr)}
+  .deck-grid{grid-template-columns:repeat(4,1fr)}
   .deck-card span{display:none}
   .deck-card::after{inset:6px;font-size:16px}
   .reading-card{padding:17px}
