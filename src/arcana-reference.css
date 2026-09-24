@@ -57,7 +57,7 @@ main[data-screen]{position:relative;min-height:100svh;isolation:isolate;overflow
 main[data-screen]::before{content:"";position:absolute;inset:0;z-index:-3;background:
   url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0.55  0 0 0 0 0.45  0 0 0 0 0.3  0 0 0 0.05 0'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)'/%3E%3C/svg%3E"),
   radial-gradient(ellipse 60% 40% at 12% 8%,rgba(201,164,94,.20),transparent 60%),
-  radial-gradient(ellipse 50% 36% at 88% 4%,rgba(47,79,62,.14),transparent 62%),
+  radial-gradient(ellipse 50% 36% at 88% 4%,rgba(201,164,94,.12),transparent 62%),
   radial-gradient(ellipse 70% 50% at 50% 100%,rgba(139,111,71,.14),transparent 65%),
   radial-gradient(ellipse 120% 90% at 50% 45%,transparent 55%,rgba(60,45,25,.07) 100%)}
 /* Real photographic environments (user-supplied clean asset pack — no baked text/UI).
