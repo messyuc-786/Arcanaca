@@ -30,7 +30,7 @@ h1,h2,h3{font-family:var(--font-display);letter-spacing:.01em}
 header:has(+ main .hero),header:has(+ main .cinematic-page){position:absolute;top:0;left:0;right:0;z-index:5;background:transparent;border-bottom:0}
 header:has(+ main .hero) .wordmark span,header:has(+ main .hero) .top nav button{text-shadow:0 1px 8px rgba(0,0,0,.85)}
 .hero{position:relative;min-height:100vh;overflow:hidden}
-.hero-light{min-height:calc(100vh - 88px);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:60px 24px;gap:14px}
+.hero-light{min-height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:60px 24px;gap:14px}
 .hero-light-icon{width:56px;height:56px;border-radius:50%;background:var(--warm);color:var(--bg);display:grid;place-items:center;font-size:24px;margin-bottom:6px}
 .hero-light-word{font-family:var(--font-script);font-size:56px;color:var(--warm-bright);line-height:1;text-transform:lowercase;text-shadow:0 2px 16px rgba(253,248,239,.9),0 1px 3px rgba(253,248,239,.9)}
 .hero-light-word::first-letter{text-transform:uppercase}
@@ -222,7 +222,7 @@ main:has(.flow-screen,.ask-screen,.choose-reading){min-height:100vh}
 .why-row{display:flex;justify-content:center;gap:36px;margin:30px 0}
 .why-row div{display:flex;flex-direction:column;align-items:center;gap:8px;color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.08em}
 .why-row i{font-style:normal;color:var(--warm);font-size:22px;border:1px solid var(--warm);border-radius:50%;width:44px;height:44px;display:grid;place-items:center}
-.thank-you{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:16px}
+.thank-you{min-height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:16px}
 .thank-you .screen-icon{font-size:20px;margin-bottom:10px}
 .wordmark-static{font-family:var(--font-script);font-size:34px;color:var(--warm-bright);margin-top:10px;text-transform:lowercase}
 .wordmark-static::first-letter{text-transform:uppercase}

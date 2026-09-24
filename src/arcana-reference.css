@@ -52,8 +52,18 @@ button,textarea{font-family:inherit}
    decoration, and a soft candlelit ambient glow behind every screen; a single dark
    header bar (sun mark + wordmark) is shared by all 15 screens, matching the reference's
    consistent chrome. See 00_MASTER_UIUX_ALL_SCREENS.jpg / 01-15_SCREEN_REFERENCE.jpg. */
-#app{min-height:100svh;background:var(--bg)}
-main[data-screen]{position:relative;min-height:100svh;isolation:isolate;overflow:hidden}
+/* App shell: flex column so header/footer take only the space their content needs and
+   main fills exactly what's left. This makes "fit" screens (short content) end up
+   precisely viewport-height with no forced scroll, while "content" screens (long
+   readings, lists) grow naturally and scroll — without classifying screens individually. */
+/* min-height, not height: a fixed height:100% on html/body would cap them at exactly
+   the viewport and clip any content taller than one screen instead of letting the page
+   scroll — the classic CSS trap that would break every "content" screen. */
+#app{display:flex;flex-direction:column;min-height:100svh;min-height:100dvh;background:var(--bg)}
+.top{flex:0 0 auto}
+main[data-screen]{position:relative;flex:1 0 auto;isolation:isolate;overflow:hidden;padding-bottom:env(safe-area-inset-bottom)}
+main[data-screen]:has(.bottom-nav){padding-bottom:calc(70px + env(safe-area-inset-bottom))}
+footer{flex:0 0 auto}
 main[data-screen]::before{content:"";position:absolute;inset:0;z-index:-3;background:
   url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0.55  0 0 0 0 0.45  0 0 0 0 0.3  0 0 0 0.05 0'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)'/%3E%3C/svg%3E"),
   radial-gradient(ellipse 60% 40% at 12% 8%,rgba(201,164,94,.20),transparent 60%),
@@ -154,7 +164,7 @@ main[data-screen="how"]::before,main[data-screen="about"]::before,main[data-scre
 .hero-cta{z-index:4;top:78.5%;width:min(340px,38vw);height:54px}
 
 /* Question */
-.ask-screen{min-height:100svh;display:flex;flex-direction:column;justify-content:center;align-items:center;padding-top:110px;padding-bottom:80px}
+.ask-screen{min-height:100%;display:flex;flex-direction:column;justify-content:center;align-items:center;padding-top:110px;padding-bottom:80px}
 .ask-screen textarea{width:min(680px,100%);height:154px;margin-top:30px;background:linear-gradient(180deg,#f1e4c9,#dfceb0);border:1px solid var(--arcana-gold);border-radius:13px;color:#281b10;padding:22px;font-size:20px;box-shadow:0 22px 55px rgba(0,0,0,.4),inset 0 1px rgba(255,255,255,.5)}
 .ask-inspiration{width:min(680px,100%);margin-top:22px}
 .ask-inspiration>p{font-size:10px;letter-spacing:.16em;color:var(--arcana-gold);font-family:var(--arcana-display)}
@@ -175,7 +185,7 @@ main[data-screen="how"]::before,main[data-screen="about"]::before,main[data-scre
 .package-row-thumb img{width:30px;height:44px;border-radius:4px;border-color:var(--arcana-gold);box-shadow:0 5px 14px #000}
 
 /* Flow / spread */
-.flow-screen{min-height:100svh;display:flex;flex-direction:column;justify-content:center}
+.flow-screen{min-height:100%;display:flex;flex-direction:column;justify-content:center}
 .positions{width:100%;grid-template-columns:repeat(3,1fr);gap:12px;margin:34px 0}
 .positions article{min-height:180px;background:var(--card);border:1px solid var(--arcana-line);border-radius:12px;padding:20px;text-align:left;box-shadow:0 8px 20px rgba(30,41,59,.06)}
 .positions b{font-family:var(--arcana-display);color:var(--arcana-gold);font-size:10px}
@@ -242,7 +252,7 @@ main[data-screen="how"]::before,main[data-screen="about"]::before,main[data-scre
 .deck-card.drawn{opacity:.25;filter:grayscale(.7)}
 
 /* Reveal */
-.reveal-screen{min-height:100svh;padding:118px 0 90px;width:min(1060px,calc(100% - 64px));margin:auto}
+.reveal-screen{min-height:100%;padding:118px 0 90px;width:min(1060px,calc(100% - 64px));margin:auto}
 .reveal-layout{position:relative;max-width:none;grid-template-columns:minmax(300px,430px) 1fr;gap:76px;margin:30px auto 0;padding:40px 24px}
 .tarot-frame{position:relative;z-index:1;padding:9px;background:#eadbb9;border:1px solid var(--arcana-gold);border-radius:7px;box-shadow:0 28px 70px rgba(0,0,0,.55)}
 .reveal-copy h2{font-size:clamp(32px,5vw,52px);font-family:var(--arcana-display);color:var(--arcana-cream)}
